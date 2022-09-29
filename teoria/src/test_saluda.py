@@ -1,6 +1,6 @@
 from saluda import saluda
 def main():
-    saluda()
+    saluda("hola qué tal", "jorge")
 
 if __name__ == '__main__':
     main()

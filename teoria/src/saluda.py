@@ -1,3 +1,2 @@
-def saluda():
-    print('hola mundo')
-    print('adios')
+def saluda(mensaje, nombre):
+    print(mensaje, nombre)
