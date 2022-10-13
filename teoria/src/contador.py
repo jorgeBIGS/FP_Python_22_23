@@ -35,3 +35,4 @@ def min_(datos):
     return result
 
 print(max(lista), max_(lista), min(lista), min_(lista))
+
