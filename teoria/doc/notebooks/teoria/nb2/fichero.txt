@@ -1,0 +1,4 @@
+Este es un fichero de texto usado como ejemplo en el notebook 7.
+Esta es otra línea del fichero.
+Y esta una tercera.
+Aquí se acaba el fichero.
