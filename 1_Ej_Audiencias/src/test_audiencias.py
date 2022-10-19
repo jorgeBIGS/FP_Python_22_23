@@ -2,9 +2,9 @@ from audiencias import *
 
 def test_lista_medias_shares():
     # Test de la función lista_medias_shares
-    shares_eds = lista_medias_shares(AUDIENCIAS_GH)
+    shares_eds = lista_medias_shares(DATOS)
     for s, e in shares_eds:
-    print("{:3d} -> {:6.3f}".format(e, s))
+        print("{:3d} -> {:6.3f}".format(e, s))
 
 def test_calcula_estadisticos(audiencias):
     # Test de la función calcula_estadisticos

@@ -1,5 +1,8 @@
 from avistamientos import *
 
+def test_avistamientos_cercanos_ubicacion(avistamientos):
+    print(len(avistamientos_cercanos_ubicacion(avistamientos, (40, -85), 0.5)))
+
 def test_duracion_total(avistamientos):
     # Test de la función duracion_total
     for estado in ['in', 'nm', 'pa', 'wa']:
@@ -21,7 +24,11 @@ def test_numero_avistamientos_fecha(avistamientos):
 
 def main():
     DATOS = lee_avistamientos('./data/ovnis.csv')
-    print(DATOS[0])
+    #print(DATOS[0])
+    #test_avistamientos_cercanos_ubicacion(DATOS)
+    #test_numero_avistamientos_fecha(DATOS)
+    #test_formas_estados(DATOS)
+    test_duracion_total(DATOS)
 
 if __name__ == '__main__':
     main()
