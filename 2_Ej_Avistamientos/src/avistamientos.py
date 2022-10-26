@@ -170,20 +170,21 @@ def avistamientos_fechas(avistamientos, fecha_inicial=None, fecha_final=None):
     '''
     pass
 
-def avistamiento_mayor_duracion(avistamientos, forma):
-    '''
-    Devuelve el avistamiento de mayor duración de entre todos los
-    avistamientos de una forma dada.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-       - forma: forma del avistamiento -> str
-    SALIDA:
-       - avistamiento más largo de la forma dada
-            -> Avistamiento(datetime, str, str, str, int, str, float, float)
-    '''
-    pass
+def avistamiento_mayor_duracion_con_forma(avistamientos, forma):
+   '''
+   Devuelve el avistamiento de mayor duración de entre todos los
+   avistamientos de una forma dada.
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+      - forma: forma del avistamiento -> str
+   SALIDA:
+      - avistamiento más largo de la forma dada
+         -> Avistamiento(datetime, str, str, str, int, str, float, float)
+   '''
+   filtrado = filtra_avistamientos_con_forma(avistamientos, forma)
+   return max(filtrado, key = lambda a:a.duracion)
 
 def avistamiento_cercano_mayor_duracion(avistamientos, coordenadas, radio=0.5):
     '''
@@ -224,18 +225,28 @@ def comentario_mas_largo(avistamientos, anyo, palabra):
     pass
 
 def avistamientos_por_fecha(avistamientos):
-    ''' 
-    Devuelve un diccionario que indexa los avistamientos por fechas
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario en el que las claves son las fechas de los avistamientos 
-         y los valores son conjuntos con los avistamientos observados en cada fecha
-            -> {datetime.date: {Avistamiento(...)}}
-    '''
-    pass
+   ''' 
+   Devuelve un diccionario que indexa los avistamientos por fechas
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario en el que las claves son las fechas de los avistamientos 
+      y los valores son conjuntos con los avistamientos observados en cada fecha
+         -> {datetime.date: {Avistamiento(...)}}
+   '''
+   result = dict()
+   for a in avistamientos:
+      clave = a.fechahora.date()
+      if not clave in result:
+         result[clave] = [a]
+      else:
+         result[clave] += [a]
+
+   return result
+
+   return result
 
 def formas_por_mes(avistamientos):
     ''' 
@@ -380,25 +391,25 @@ def porc_avistamientos_por_forma(avistamientos):
     '''  
     pass
 
-   def avistamientos_mayor_duracion_por_estado(avistamientos, limite=3):
-    '''
-    Devuelve un diccionario que almacena los avistamientos de mayor duración 
-    en cada estado, ordenados de mayor a menor duración.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-       - limite: número de avistamientos a almacenar por cada estado -> int
-    SALIDA:
-       - diccionario en el que las claves son los estados y los valores son listas 
-         con los "limite" avistamientos de mayor duración de cada estado,
-         ordenados de mayor a menor duración
-            -> {str: [Avistamiento(...)]}
-            
-    En primer lugar crearemos un diccionario cuyas claves sean los estados
-    y cuyos valores sean listas con los avistamientos observados en ese estado.
-    Después crearemos un segundo diccionario cuyas claves sean los estados
-    y cuyos valores sean las mismas listas, pero en orden de mayor a menor
-    duración y recortadas a "limite" elementos.
-    '''
-    pass
+def avistamientos_mayor_duracion_por_estado(avistamientos, limite=3):
+   '''
+   Devuelve un diccionario que almacena los avistamientos de mayor duración 
+   en cada estado, ordenados de mayor a menor duración.
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+      - limite: número de avistamientos a almacenar por cada estado -> int
+   SALIDA:
+      - diccionario en el que las claves son los estados y los valores son listas 
+      con los "limite" avistamientos de mayor duración de cada estado,
+      ordenados de mayor a menor duración
+         -> {str: [Avistamiento(...)]}
+         
+   En primer lugar crearemos un diccionario cuyas claves sean los estados
+   y cuyos valores sean listas con los avistamientos observados en ese estado.
+   Después crearemos un segundo diccionario cuyas claves sean los estados
+   y cuyos valores sean las mismas listas, pero en orden de mayor a menor
+   duración y recortadas a "limite" elementos.
+   '''
+   pass

@@ -119,18 +119,24 @@ def mediana(lista):
     SALIDA:
        - mediana de los valores de entrada -> float
     '''
-    pass
+    ordenado = sorted(lista)
+    return ordenado[len(ordenado)//2]
 
+
+def media(shares):
+    return sum(shares)/len(shares)
 
 def calcula_estadisticos(audiencias):
-    ''' Calcula la media, mediana, máximo y mínimo de una lista de audiencias
+    ''' Calcula la media, mediana, 
+    máximo y mínimo de una lista de audiencias
     
     ENTRADA: 
        - audiencias: lista de audiencias -> [(int, float)]
     SALIDA:
        - media, mediana, máximo y mínimo -> (float, float, float, float)
     '''
-    pass
+    shares = [share for _, share in audiencias]
+    return (media(shares), mediana(shares), max(shares), min(shares))
 
 def lista_medias_shares(audiencias):
     ''' Calcula una lista ordenada de ediciones según su media de shares
@@ -140,4 +146,5 @@ def lista_medias_shares(audiencias):
     SALIDA:
        - pares (medias de audiencia, edición) ordenados de mayor a menor media -> [(float, int)]
     '''
-    pass
+    diccionario = medias_por_ediciones(audiencias)
+    return sorted(diccionario.items(), key=lambda x:x[1], reverse = True)

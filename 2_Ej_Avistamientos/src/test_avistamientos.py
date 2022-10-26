@@ -97,11 +97,11 @@ def avistamiento_cercano_mayor_duracion(avistamientos):
         .format(radio, coordenadas, duracion))
     print("Comentario:", comentario)
 
-def test_avistamiento_mayor_duracion(avistamientos):
+def test_avistamiento_mayor_duracion_con_forma(avistamientos):
     # Test de la función avistamiento_mayor_duracion
     forma = 'circle'
     print("Avistamiento de forma \'{}\' de mayor duración: {}"
-        .format(forma, avistamiento_mayor_duracion(avistamientos, forma)))
+        .format(forma, avistamiento_mayor_duracion_con_forma(avistamientos, forma)))
 
 def test_avistamientos_cercanos_ubicacion(avistamientos):
     print(len(avistamientos_cercanos_ubicacion(avistamientos, (40, -85), 0.5)))
@@ -131,7 +131,9 @@ def main():
     #test_avistamientos_cercanos_ubicacion(DATOS)
     #test_numero_avistamientos_fecha(DATOS)
     #test_formas_estados(DATOS)
-    test_duracion_total(DATOS)
+    #test_duracion_total(DATOS)
+    #test_avistamiento_mayor_duracion_con_forma(DATOS)
+    test_avistamientos_por_fecha(DATOS)
 
 if __name__ == '__main__':
     main()
