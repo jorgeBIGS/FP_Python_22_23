@@ -142,33 +142,56 @@ def avistamiento_mas_reciente_con_forma2(avistamientos, forma):
    result = filtra_avistamientos_con_forma(avistamientos, forma)
    return sorted(result)[-1]
 
-def avistamientos_fechas(avistamientos, fecha_inicial=None, fecha_final=None):
-    '''
-    Devuelve una lista con los avistamientos que han tenido lugar
-    entre fecha_inicial y fecha_final (ambas inclusive). La lista devuelta
-    estará ordenada de los avistamientos más recientes a los más antiguos.
-    
-    Si fecha_inicial es None se devolverán todos los avistamientos
-    hasta fecha_final.
-    Si fecha_final es None se devolverán todos los avistamientos desde
-    fecha_inicial.
-    Si ambas fechas son None se devolverá la lista de 
-    avistamientos completa. 
-    
-    Usar el método date() para obtener la fecha de un objeto datetime.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-       - fecha_inicial: fecha a partir de la cual se devuelven los avistamientos
-            -> datetime.date
-       - fecha_final: fecha hasta la cual se devuelven los avistamientos
-            -> datetime.date
-    SALIDA:
-       - lista de tuplas con la información de los avistamientos en el rango de fechas
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    '''
-    pass
+def fechas_limites_sin_none(avistamientos, fecha_inicial, 
+fecha_final):
+   result_inicial = fecha_inicial
+   if result_inicial == None:
+      av = min(avistamientos, key = lambda a: a.fechahora)
+      result_inicial = av.fechahora.date()
+
+   result_final = fecha_final
+   if result_final == None:
+      av = max(avistamientos, key = lambda a: a.fechahora)
+      result_final = av.fechahora.date()
+   
+   return result_inicial, result_final
+
+def avistamientos_entre_fechas(avistamientos, fecha_inicial=None, fecha_final=None):
+   '''
+   Devuelve una lista con los avistamientos 
+   que han tenido lugar
+   entre fecha_inicial y fecha_final (ambas inclusive). La lista devuelta
+   estará ordenada de los avistamientos más recientes a los más antiguos.
+
+   Si fecha_inicial es None se devolverán todos los avistamientos
+   hasta fecha_final.
+   Si fecha_final es None se devolverán todos los avistamientos desde
+   fecha_inicial.
+   Si ambas fechas son None se devolverá la lista de 
+   avistamientos completa. 
+
+   Usar el método date() para obtener la fecha de un objeto datetime.
+
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+      - fecha_inicial: fecha a partir de la cual se devuelven los avistamientos
+         -> datetime.date
+      - fecha_final: fecha hasta la cual se devuelven los avistamientos
+         -> datetime.date
+   SALIDA:
+      - lista de tuplas con la información de los avistamientos en el rango de fechas
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   '''
+   result = []
+
+   fecha_ini, fecha_fin = fechas_limites_sin_none(avistamientos, fecha_inicial, fecha_final)
+
+   for a in avistamientos:
+      if fecha_fin >= a.date() >= fecha_ini :
+         result.append(a)
+
+   return result
 
 def avistamiento_mayor_duracion_con_forma(avistamientos, forma):
    '''
@@ -186,43 +209,56 @@ def avistamiento_mayor_duracion_con_forma(avistamientos, forma):
    filtrado = filtra_avistamientos_con_forma(avistamientos, forma)
    return max(filtrado, key = lambda a:a.duracion)
 
-def avistamiento_cercano_mayor_duracion(avistamientos, coordenadas, radio=0.5):
-    '''
-    Devuelve la duración y los comentarios del avistamiento que más 
-    tiempo ha durado de aquellos situados en el entorno de las
-    coordenadas que se pasan como parámetro de entrada.
-    El resultado debe ser una tupla de la forma (duración, comentarios)
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-       - coordenadas: tupla con latitud y longitud -> (float, float)
-       - radio: radio de búsqueda -> float
-    SALIDA:
-       - duración del avistamiento más largo en el entorno de las coordenadas
-            -> int
-       - comentarios del avistamiento más largo en el entorno de las coordenadas
-            -> str
-    '''
-    pass
+def avistamiento_cercano_mayor_duracion(
+   avistamientos, coordenadas, radio=0.5):
+   '''
+   Devuelve la duración y los comentarios del avistamiento que más 
+   tiempo ha durado de aquellos situados en el entorno de las
+   coordenadas que se pasan como parámetro de entrada.
+   El resultado debe ser una tupla de la forma (duración, comentarios)
+
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+      - coordenadas: tupla con latitud y longitud -> (float, float)
+      - radio: radio de búsqueda -> float
+   SALIDA:
+      - duración del avistamiento más largo en el entorno de las coordenadas
+         -> int
+      - comentarios del avistamiento más largo en el entorno de las coordenadas
+         -> str
+   '''
+   result = avistamientos_cercanos_ubicacion(
+      avistamientos, 
+   coordenadas, radio)
+
+   aux = max(result, key = lambda x: x.duracion)
+
+   return (aux.duracion, aux.comentarios)
 
 def comentario_mas_largo(avistamientos, anyo, palabra):
-    ''' 
-    Devuelve el avistamiento cuyo comentario es más largo, de entre
-    los avistamientos observados en el año dado por el parámetro "anyo"
-    y cuyo comentario incluya la palabra recibida en el parámetro "palabra".
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-       - anyo: año para el que se hará la búsqueda -> int
-       - palabra: palabra que debe incluir el comentario del avistamiento buscado -> str
-    SALIDA:
-       - longitud del comentario más largo -> int
-       - avistamiento con el comentario más largo
-            -> Avistamiento(datetime, str, str, str, int, str, float, float)
-    '''    
-    pass
+   ''' 
+   Devuelve el avistamiento cuyo comentario es más largo, de entre
+   los avistamientos observados en el año dado por el parámetro "anyo"
+   y cuyo comentario incluya la palabra recibida en el parámetro "palabra".
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+      - anyo: año para el que se hará la búsqueda -> int
+      - palabra: palabra que debe incluir el comentario del avistamiento buscado -> str
+   SALIDA:
+      - longitud del comentario más largo -> int
+      - avistamiento con el comentario más largo
+         -> Avistamiento(datetime, str, str, str, int, str, float, float)
+   '''    
+   result = []
+
+   for a in avistamientos:
+      if a.fechahora.year == anyo and palabra in a.comentarios:
+         result.append(a)
+
+   return max(result, key = lambda x: len(x.comentarios))
 
 def avistamientos_por_fecha(avistamientos):
    ''' 
@@ -249,27 +285,40 @@ def avistamientos_por_fecha(avistamientos):
    return result
 
 def formas_por_mes(avistamientos):
-    ''' 
-    Devuelve un diccionario que indexa las distintas formas de avistamientos
-    por los nombres de los meses en que se observan.
-    Por ejemplo, para el mes "Enero" se asociará un conjunto con todas las
-    formas distintas observadas en dicho mes.
-    
-    Usar como claves los nombres de los doce meses con la inicial en mayúsculas:
-    meses = ["Enero", "Febrero", "Marzo", 
-             "Abril", "Mayo", "Junio", 
-             "Julio", "Agosto", "Septiembre", 
-             "Octubre", "Noviembre", "Diciembre"]
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario en el que las claves son los nombres de los meses 
-         y los valores son conjuntos con las formas observadas en cada mes
-            -> {str: {str}}
-    '''
-    pass
+   ''' 
+   Devuelve un diccionario que indexa las distintas formas de avistamientos
+   por los nombres de los meses en que se observan.
+   Por ejemplo, para el mes "Enero" se asociará un conjunto con todas las
+   formas distintas observadas en dicho mes.
+   
+   Usar como claves los nombres de los doce meses con la inicial en mayúsculas:
+   meses = ["Enero", "Febrero", "Marzo", 
+            "Abril", "Mayo", "Junio", 
+            "Julio", "Agosto", "Septiembre", 
+            "Octubre", "Noviembre", "Diciembre"]
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario en el que las claves son los nombres de los meses 
+      y los valores son conjuntos con las formas observadas en cada mes
+         -> {str: {str}}
+   '''
+   meses = ["Enero", "Febrero", "Marzo", 
+            "Abril", "Mayo", "Junio", 
+            "Julio", "Agosto", "Septiembre", 
+            "Octubre", "Noviembre", "Diciembre"]
+   result = dict()
+
+   for a in avistamientos:
+      clave = meses[a.fechahora.month-1]
+      if clave in result:
+         result[clave].add(a.forma)
+      else:
+         result[clave] = {a.forma}
+
+   return result
 
 
 def numero_avistamientos_por_año(avistamientos):
@@ -284,7 +333,16 @@ def numero_avistamientos_por_año(avistamientos):
          y los valores son el número de avistamientos observados en ese año
             -> {int: int}
     '''
-    pass
+    result = dict()
+
+    for a in avistamientos:
+      clave = a.fechahora.year
+      if clave in result:
+         result[clave] += 1
+      else:
+         result[clave] = 1
+
+    return result
 
 def num_avistamientos_por_mes(avistamientos):
     '''
@@ -309,23 +367,31 @@ def num_avistamientos_por_mes(avistamientos):
     pass
 
 def coordenadas_mas_avistamientos(avistamientos): 
-    '''
-    Devuelve las coordenadas enteras que se corresponden con 
-    la zona donde más avistamientos se han observado.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - latitud y longitud enteras que acumulan más avistamientos -> (int, int)
-       
-    En primer lugar construiremos un diccionario cuyas claves sean las coordenadas 
-    enteras obtenidas a partir de las coordenadas de los avistamientos, y
-    cuyos valores sean el número de avistamientos observados en esas coordenadas.
-    Después obtendremos el máximo de los elementos del diccionario según el valor
-    del elemento.
-    '''   
-    pass
+   '''
+   Devuelve las coordenadas enteras que se corresponden con 
+   la zona donde más avistamientos se han observado.
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - latitud y longitud enteras que acumulan más avistamientos -> (int, int)
+      
+   En primer lugar construiremos un diccionario cuyas claves sean las coordenadas 
+   enteras obtenidas a partir de las coordenadas de los avistamientos, y
+   cuyos valores sean el número de avistamientos observados en esas coordenadas.
+   Después obtendremos el máximo de los elementos del diccionario según el valor
+   del elemento.
+   '''   
+   result = dict()
+   for a in avistamientos:
+      clave = (int(a.latitud), int(a.longitud))
+      if clave in result:
+         result[clave] += 1
+      else:
+         result[clave] = 1
+   return max(result.items(), key = lambda t: t[1])
+
 
 def hora_mas_avistamientos(avistamientos):
     ''' 

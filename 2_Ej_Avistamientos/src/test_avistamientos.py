@@ -69,12 +69,12 @@ def test_avistamientos_por_fecha(avistamientos):
 
 def test_comentario_mas_largo(avistamientos):
     # Test de la función comentario_mas_largo
-    print('El avistamiento con el comentario más largo de 2015 incluyendo la palabra "ufo" es:')     
+    print('El avistamiento con el comentario más largo de 2005 incluyendo la palabra "ufo" es:')     
     print(comentario_mas_largo(avistamientos, 2005, "ufo"))
 
 def test_avistamientos_fechas(avistamientos):
     # Test de la función avistamientos_fechas
-    avistamientos_fec = avistamientos_fechas(avistamientos,
+    avistamientos_fec = avistamientos_entre_fechas(avistamientos,
                                             datetime(2005,5,1).date(), datetime(2005,5,1).date())
     print("Mostrando los avistamientos entre el 1 de mayo de 2005 y el 1 de mayo de 2005: ")
     for a in avistamientos_fec:
@@ -82,13 +82,13 @@ def test_avistamientos_fechas(avistamientos):
         
     print("\tTotal: {} avistamientos.".format(len(avistamientos_fec)))
     print("Avistamientos hasta el 1 de mayo de 2005: {} avistamientos"
-        .format(len(avistamientos_fechas(avistamientos,
+        .format(len(avistamientos_entre_fechas(avistamientos,
                                         fecha_final=datetime(2005,5,1).date()))))
     print("Avistamientos desde el 1 de mayo de 2005: {} avistamientos"
-        .format(len(avistamientos_fechas(avistamientos,
+        .format(len(avistamientos_entre_fechas(avistamientos,
                                         fecha_inicial=datetime(2005,5,1).date()))))
 
-def avistamiento_cercano_mayor_duracion(avistamientos):
+def test_avistamiento_cercano_mayor_duracion(avistamientos):
     # Test de la función avistamiento_cercano_mayor_duracion
     coordenadas = (40.2, -85.4)
     radio = 0.5
@@ -133,7 +133,11 @@ def main():
     #test_formas_estados(DATOS)
     #test_duracion_total(DATOS)
     #test_avistamiento_mayor_duracion_con_forma(DATOS)
-    test_avistamientos_por_fecha(DATOS)
+    #test_avistamientos_por_fecha(DATOS)
+
+    #test_comentario_mas_largo(DATOS)
+    #test_numero_avistamientos_por_año(DATOS)
+    test_coordenadas_mas_avistamientos(DATOS)
 
 if __name__ == '__main__':
     main()
