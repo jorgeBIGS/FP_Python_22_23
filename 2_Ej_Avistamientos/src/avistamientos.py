@@ -322,49 +322,59 @@ def formas_por_mes(avistamientos):
 
 
 def numero_avistamientos_por_año(avistamientos):
-    '''
-    Devuelve el número de avistamientos observados en cada año.
-             
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario en el que las claves son los años
-         y los valores son el número de avistamientos observados en ese año
-            -> {int: int}
-    '''
-    result = dict()
+   '''
+   Devuelve el número de avistamientos observados en cada año.
+            
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario en el que las claves son los años
+      y los valores son el número de avistamientos observados en ese año
+         -> {int: int}
+   '''
+   result = dict()
 
-    for a in avistamientos:
+   for a in avistamientos:
       clave = a.fechahora.year
       if clave in result:
          result[clave] += 1
       else:
          result[clave] = 1
 
-    return result
+   return result
 
 def num_avistamientos_por_mes(avistamientos):
-    '''
-    Devuelve el número de avistamientos observados en cada mes del año.
-    
-    Usar la expresión .date().month para obtener el número del mes de un objeto datetime.
-    
-    Usar como claves los nombres de los doce meses con la inicial en mayúsculas:
-    meses = ["Enero", "Febrero", "Marzo", 
-             "Abril", "Mayo", "Junio", 
-             "Julio", "Agosto", "Septiembre", 
-             "Octubre", "Noviembre", "Diciembre"]
-             
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario en el que las claves son los nombres de los meses y 
-         los valores son el número de avistamientos observados en ese mes
-            -> {str: int}
-    '''
-    pass
+   '''
+   Devuelve el número de avistamientos observados en cada mes del año.
+   
+   Usar la expresión .date().month para obtener el número del mes de un objeto datetime.
+   
+   Usar como claves los nombres de los doce meses con la inicial en mayúsculas:
+   meses = ["Enero", "Febrero", "Marzo", 
+            "Abril", "Mayo", "Junio", 
+            "Julio", "Agosto", "Septiembre", 
+            "Octubre", "Noviembre", "Diciembre"]
+            
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario en el que las claves son los nombres de los meses y 
+      los valores son el número de avistamientos observados en ese mes
+         -> {str: int}
+   '''
+   result = dict()
+
+   for a in avistamientos:
+      clave = a.fechahora.month
+      if clave in result:
+         result[clave] += 1
+      else:
+         result[clave] = 1
+
+   return result
+
 
 def coordenadas_mas_avistamientos(avistamientos): 
    '''
@@ -394,68 +404,76 @@ def coordenadas_mas_avistamientos(avistamientos):
 
 
 def hora_mas_avistamientos(avistamientos):
-    ''' 
-    Devuelve la hora del día (de 0 a 23) con mayor número de avistamientos
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - hora del día en la que se producen más avistamientos -> int
-       
-    En primer lugar construiremos un diccionario cuyas claves sean las horas del
-    día en las que se han observado avistamientos, y cuyos valores sean el número
-    de avistamientos observados en esa hora.
-    Después obtendremos el máximo de los elementos del diccionario según el valor
-    del elemento.
-    '''
-    pass
+   ''' 
+   Devuelve la hora del día (de 0 a 23) con mayor número de avistamientos
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - hora del día en la que se producen más avistamientos -> int
+      
+   En primer lugar construiremos un diccionario cuyas claves sean las horas del
+   día en las que se han observado avistamientos, y cuyos valores sean el número
+   de avistamientos observados en esa hora.
+   Después obtendremos el máximo de los elementos del diccionario según el valor
+   del elemento.
+   '''
+   result = dict()
+   for a in avistamientos:
+      clave = a.fechahora.hour
+      if clave in result:
+         result[clave] += 1
+      else:
+         result[clave] = 1
+   return max(result.items(), key=lambda t: t[1])
+
 
 def longitud_media_comentarios_por_estado(avistamientos):
-    '''
-    Devuelve un diccionario en el que las claves son los estados donde se
-    producen los avistamientos y los valores son la longitud media de los
-    comentarios de los avistamientos en cada estado.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario que almacena la longitud media de los comentarios (valores)
-         por estado (claves)
-            -> {str: float}
-            
-    En primer lugar construiremos un diccionario cuyas claves sean los estados
-    y cuyos valores sean el número de avistamientos de ese estado.
-    Después crearemos otro diccionario cuyas claves sean los estados
-    y cuyos valores sean la suma de las longitudes de los comentarios de los
-    avistamientos de ese estado.
-    A partir de estos dos diccionarios crearemos un tercer diccionario cuyas claves
-    sean los estados y cuyos valores sean los que nos piden, y que se obtienen
-    a partir de los valores de los dos diccionarios auxiliares creados.
-    '''
-    pass  
+   '''
+   Devuelve un diccionario en el que las claves son los estados donde se
+   producen los avistamientos y los valores son la longitud media de los
+   comentarios de los avistamientos en cada estado.
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario que almacena la longitud media de los comentarios (valores)
+      por estado (claves)
+         -> {str: float}
+         
+   En primer lugar construiremos un diccionario cuyas claves sean los estados
+   y cuyos valores sean el número de avistamientos de ese estado.
+   Después crearemos otro diccionario cuyas claves sean los estados
+   y cuyos valores sean la suma de las longitudes de los comentarios de los
+   avistamientos de ese estado.
+   A partir de estos dos diccionarios crearemos un tercer diccionario cuyas claves
+   sean los estados y cuyos valores sean los que nos piden, y que se obtienen
+   a partir de los valores de los dos diccionarios auxiliares creados.
+   '''
+   pass  
 
 def porc_avistamientos_por_forma(avistamientos):  
-    '''
-    Devuelve un diccionario en el que las claves son las formas de los
-    avistamientos, y los valores los porcentajes de avistamientos con cada forma.
-    
-    ENTRADA:
-       - avistamientos: lista de tuplas con la información de los avistamientos 
-            -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
-    SALIDA:
-       - diccionario que almacena los porcentajes de avistamientos (valores)
-         por forma (claves)
-            -> {str: float}
-            
-    En primer lugar crearemos un diccionario cuyas claves sean las formas
-    y cuyos valores sean el número de avistamientos de esa forma.
-    Después crearemos un segundo diccionario con las mismas claves y cuyos valores
-    resulten de dividir los valores del diccionario anterior por el número
-    total de avistamientos, para obtener los porcentajes.
-    '''  
-    pass
+   '''
+   Devuelve un diccionario en el que las claves son las formas de los
+   avistamientos, y los valores los porcentajes de avistamientos con cada forma.
+   
+   ENTRADA:
+      - avistamientos: lista de tuplas con la información de los avistamientos 
+         -> [Avistamiento(datetime, str, str, str, int, str, float, float)]
+   SALIDA:
+      - diccionario que almacena los porcentajes de avistamientos (valores)
+      por forma (claves)
+         -> {str: float}
+         
+   En primer lugar crearemos un diccionario cuyas claves sean las formas
+   y cuyos valores sean el número de avistamientos de esa forma.
+   Después crearemos un segundo diccionario con las mismas claves y cuyos valores
+   resulten de dividir los valores del diccionario anterior por el número
+   total de avistamientos, para obtener los porcentajes.
+   '''  
+   pass
 
 def avistamientos_mayor_duracion_por_estado(avistamientos, limite=3):
    '''

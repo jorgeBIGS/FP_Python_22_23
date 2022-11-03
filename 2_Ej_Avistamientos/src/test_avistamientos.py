@@ -137,7 +137,8 @@ def main():
 
     #test_comentario_mas_largo(DATOS)
     #test_numero_avistamientos_por_año(DATOS)
-    test_coordenadas_mas_avistamientos(DATOS)
+    #test_coordenadas_mas_avistamientos(DATOS)
+    test_hora_mas_avistamientos(DATOS)
 
 if __name__ == '__main__':
     main()
