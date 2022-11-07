@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime
 from math import sqrt
-from collections import namedtuple, Counter
+from collections import defaultdict, namedtuple, Counter
 
 # Creación de una tupla con nombre para los avistamientos
 Avistamiento = namedtuple('Avistamiento','fechahora, ciudad, estado, forma, duracion, comentarios, latitud, longitud')
@@ -452,7 +452,13 @@ def longitud_media_comentarios_por_estado(avistamientos):
    sean los estados y cuyos valores sean los que nos piden, y que se obtienen
    a partir de los valores de los dos diccionarios auxiliares creados.
    '''
-   pass  
+   result = defaultdict(list)
+
+   for a in avistamientos:
+      result[a.estado].append(len(a.comentarios))
+
+   return {estado: sum(listado)/len(listado) 
+               for estado, listado in result.items()}  
 
 def porc_avistamientos_por_forma(avistamientos):  
    '''
@@ -473,7 +479,13 @@ def porc_avistamientos_por_forma(avistamientos):
    resulten de dividir los valores del diccionario anterior por el número
    total de avistamientos, para obtener los porcentajes.
    '''  
-   pass
+   result = defaultdict(int)
+
+   for a in avistamientos:
+      result[a.forma]+=1
+   
+   return {forma: 100.0*frecuencia/len(avistamientos) 
+               for forma, frecuencia in result.items()}
 
 def avistamientos_mayor_duracion_por_estado(avistamientos, limite=3):
    '''
@@ -496,4 +508,11 @@ def avistamientos_mayor_duracion_por_estado(avistamientos, limite=3):
    y cuyos valores sean las mismas listas, pero en orden de mayor a menor
    duración y recortadas a "limite" elementos.
    '''
-   pass
+   result = defaultdict(list)
+
+   for a in avistamientos:
+      result[a.estado].append(a)
+
+   return {estado: sorted(listado, 
+      key = lambda x: x.duracion, reverse = True)[:limite] 
+               for estado, listado in result.items()}
